@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { PageContainer, WorkersList, Worker, WorkerForm, Buttons, TabButton, DeleteWorker, PlanButton } from "./homeStyles";
 import { workers } from "./workersData";
 
@@ -7,11 +7,11 @@ export default function Home() {
     const WorkersCount = useRef(workers .length);
     const [listOfWorkers, setListOfWorkers] = useState(workers);
     const [activeTab, setActiveTab] = useState('list-of-workers');
-    const [storeTask, setStoreTask] = useState({
+    const [Task, setTask] = useState({
         meters: 0,
         time: 0
     });
-    const [tempStoreTask, setTempStoreTask] = useState({
+    const [tempTask, setTempTask] = useState({
         meters: "",
         time: "",
     });
@@ -44,29 +44,29 @@ export default function Home() {
     };
 
     const taskManagement = (e) => {
-        setTempStoreTask({ ...tempStoreTask, [e.target.name]: e.target.value });
+        setTempTask({ ...tempTask, [e.target.name]: e.target.value });
     };
 
     const addTask = async () => {
-        const storageValue = tempStoreTask;
-        let newStoreTask = {};
+        const storageValue = tempTask;
+        let newTask = {};
         const keys = Object.keys(storageValue);
         keys.map((key) => {
             if (Number(storageValue[key])) {
-                newStoreTask[key] = Number(storageValue[key]);
+                newTask[key] = Number(storageValue[key]);
             }
             else {
-                newStoreTask[key] = Number(storeTask[key]);
+                newTask[key] = Number(Task[key]);
             }
         });
-        console.log(newStoreTask);
-        await setStoreTask(newStoreTask);
-        await setTempStoreTask({ meters: "", time: "" });
+        console.log(newTask);
+        await setTask(newTask);
+        await setTempTask({ meters: "", time: "" });
 
     };
 
     let workforceMeters = 0;
-    let workforceRequirement = storeTask.meters / storeTask.time;
+    let workforceRequirement = Task.meters / Task.time;
 
     for (let i = 0; i < listOfWorkers.length; i++) {
         console.log(listOfWorkers[i]);
@@ -79,12 +79,12 @@ export default function Home() {
     }
 
 	console.log(`Meters done in 1 hour: ${workforceMeters}`)
-    console.log(`Meters required in 1 hour: ${(storeTask.meters / storeTask.time)}`)
-    if (workforceMeters >= storeTask.meters / storeTask.time) {
-        console.log("Enough workforce")
+    console.log(`Meters required in 1 hour: ${(Task.meters / Task.time)}`)
+    if (workforceMeters >= Task.meters / Task.time) {
+        console.log("Enough")
     }
     else {
-        console.log("Not enough workforce!")
+        console.log("Not enough ")
     }
     const switchTab = (e, newValue) => {
         e.preventDefault();
@@ -110,8 +110,7 @@ export default function Home() {
                             listOfWorkers.map((employee) => (
                                 <Worker key={employee.id} name={employee.name}>
                                     {employee.name} / {employee.sex}
-                                    <DeleteWorker
-                                        onClick={() => { RemoveEmployee(employee.id); }}
+                                    <DeleteWorker onClick={ () => { RemoveEmployee(employee.id); }}
                                     >
                                         🗙
                                     </DeleteWorker>
@@ -122,7 +121,7 @@ export default function Home() {
                     <WorkerForm name="employeeForm">
                         <input
                             type="text"
-                            placeholder="Jméno zaměstnance"
+                            placeholder="name and Surname"
                             className="inputClass"
                             name="name"
                             value={addWorker.name}
@@ -130,7 +129,7 @@ export default function Home() {
                         />
                         <input
                             type="text"
-                            placeholder="Pohlaví zaměstnance (M/F)"
+                            placeholder="Gender (M/F)"
                             className="inputClass"
                             name="sex"
                             value={addWorker.sex}
@@ -154,8 +153,8 @@ export default function Home() {
                         >
                             <h2>Aktuální Úkol</h2>
                           
-                                <p>Meters tp do: {storeTask.meters} m</p>
-                                <p>Time: {storeTask.time} h</p>
+                                <p>Meters tp do: {Task.meters} m</p>
+                                <p>Time: {Task.time} h</p>
                             
                         </div>
                        
@@ -164,7 +163,7 @@ export default function Home() {
                             placeholder="meters to do"
                             className="inputClass"
                             name="meters"
-                            value={tempStoreTask.meters}
+                            value={tempTask.meters}
                             onChange={taskManagement}
                         />
                         <input
@@ -172,7 +171,7 @@ export default function Home() {
                             placeholder="Time in hours"
                             className="inputClass"
                             name="time"
-                            value={tempStoreTask.time}
+                            value={tempTask.time}
                             onChange={taskManagement}
                         />
                         <PlanButton
