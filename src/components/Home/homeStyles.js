@@ -92,11 +92,11 @@ export const PlanButton = styled.button`
   ${props => {
         if (props.employeePerformance >= props.conditionRequirement) {
             return `
-        background-color: #43A047;
+        background-color: green;
       `;
         } else {
             return `
-        background-color: #B71C1C;
+        background-color: red;
       `;
         }
     }}
