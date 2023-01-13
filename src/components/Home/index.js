@@ -7,9 +7,7 @@ export default function Home() {
     const WorkersCount = useRef(workers .length);
     const [listOfWorkers, setListOfWorkers] = useState(workers);
     const [activeTab, setActiveTab] = useState('list-of-workers');
-    const [valid, setValid] = useState(false);
-    const [validPlan,setValidPlan]=useState(false);
-    const [activePlan,setActivePlan]=useState("white");
+
 
     const [Task, setTask] = useState({
         meters: 0,
@@ -49,7 +47,6 @@ export default function Home() {
 
     const taskManagement = (e) => {
         setTempTask({ ...tempTask, [e.target.name]: e.target.value });
-        checkPlan();
     };
 
     const addTask = async () => {
@@ -97,16 +94,7 @@ export default function Home() {
         setActiveTab(newActiveTab);
     };
 
-    const checkPlan=()=>{
-        if(tempTask.minutes<=Task.minutes 
-            && tempTask.meters<=Task.meters
-            && Number(tempTask.minutes)>=1 && Number(tempTask.meters)>=1
-            ){
-            setValidPlan(true);
-            setActivePlan("green");
-        }else{setValidPlan(false);
-            setActivePlan("red");}
-    };
+
 
     return (
         <PageContainer>
@@ -172,6 +160,7 @@ export default function Home() {
                           
                                 <p>Meters to do: {tempTask.meters} m</p>
                                 <p>Time: {tempTask.time} h</p>
+                                
                             
                         </div>
                        
