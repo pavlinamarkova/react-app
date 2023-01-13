@@ -3,7 +3,6 @@ import { PageContainer, WorkersList, Worker, WorkerForm, Buttons, TabButton, Del
 import { workers } from "./workersData";
 
 export default function Home() {
-
     const WorkersCount = useRef(workers .length);
     const [listOfWorkers, setListOfWorkers] = useState(workers);
     const [activeTab, setActiveTab] = useState('list-of-workers');
@@ -39,20 +38,20 @@ export default function Home() {
         setListOfWorkers(listOfWorkers.filter(worker => worker.id != id));
     };
 
-    const taskManagement = (e) => {
+    const taskHandle = (e) => {
         setTempTask({ ...tempTask, [e.target.name]: e.target.value });
     };
 
-    let workforceMeters = 0;
-    let workforceRequirement = tempTask.meters / tempTask.time;
+    let workMeters = 0;
+    let workRequirement = tempTask.meters / tempTask.time;
 
     for (let i = 0; i < listOfWorkers.length; i++) {
         console.log(listOfWorkers[i]);
         if (listOfWorkers[i].sex === 'M') {
-            workforceMeters++;
+            workMeters++;
         }
         else {
-            workforceMeters+= 0.5
+            workMeters+= 0.5
         }
     }
 
@@ -132,7 +131,7 @@ export default function Home() {
                             className="inputClass"
                             name="meters"
                             value={tempTask.meters}
-                            onChange={taskManagement}
+                            onChange={taskHandle}
                         />
                         <input
                             type="number"
@@ -140,12 +139,12 @@ export default function Home() {
                             className="inputClass"
                             name="time"
                             value={tempTask.time}
-                            onChange={taskManagement}
+                            onChange={taskHandle}
                         />
                         <br/>
                         <PlanButton
                             className="inputClass"
-                            id="planButton" name="assignment" employeePerformance={workforceMeters} conditionRequirement={workforceRequirement}                         
+                            id="planButton" name="assignment" workForMeters={workMeters} conditionRequirement={workRequirement}                         
                         >
                             Order Work
                         </PlanButton>

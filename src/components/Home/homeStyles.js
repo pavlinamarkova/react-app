@@ -90,7 +90,7 @@ export const PlanButton = styled.button`
   cursor: pointer;
   background-color: transparent;
   ${props => {
-        if (props.employeePerformance >= props.conditionRequirement) {
+        if (props.workForMeters >= props.conditionRequirement) {
             return `
         background-color: green;
       `;
