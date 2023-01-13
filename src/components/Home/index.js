@@ -7,16 +7,11 @@ export default function Home() {
     const WorkersCount = useRef(workers .length);
     const [listOfWorkers, setListOfWorkers] = useState(workers);
     const [activeTab, setActiveTab] = useState('list-of-workers');
-
-
-    const [Task, setTask] = useState({
-        meters: 0,
-        time: 0
-    });
     const [tempTask, setTempTask] = useState({
         meters: "",
         time: "",
     });
+
     const [addWorker, setAddWorker] = useState({
         id: (WorkersCount.current + 1),
         name: ""
@@ -40,31 +35,12 @@ export default function Home() {
         });
     };
 
-    const RemoveEmployee = (id) => {
-
+    const RemoveWorker = (id) => {
         setListOfWorkers(listOfWorkers.filter(worker => worker.id != id));
     };
 
     const taskManagement = (e) => {
         setTempTask({ ...tempTask, [e.target.name]: e.target.value });
-    };
-
-    const addTask = async () => {
-        const storageValue = tempTask;
-        let newTask = {};
-        const keys = Object.keys(storageValue);
-        keys.map((key) => {
-            if (Number(storageValue[key])) {
-                newTask[key] = Number(storageValue[key]);
-            }
-            else {
-                newTask[key] = Number(Task[key]);
-            }
-        });
-        console.log(newTask);
-        await setTask(newTask);
-        await setTempTask({ meters: "", time: "" });
-
     };
 
     let workforceMeters = 0;
@@ -76,25 +52,15 @@ export default function Home() {
             workforceMeters++;
         }
         else {
-            workforceMeters += 0.5
+            workforceMeters+= 0.5
         }
     }
 
-	console.log(`Meters done in 1 hour: ${workforceMeters}`)
-    console.log(`Meters required in 1 hour: ${(Task.meters / Task.time)}`)
-    if (workforceMeters >= Task.meters / Task.time) {
-        console.log("Enough")
-    }
-    else {
-        console.log("Not enough ")
-    }
     const switchTab = (e, newValue) => {
         e.preventDefault();
         const newActiveTab = newValue;
         setActiveTab(newActiveTab);
     };
-
-
 
     return (
         <PageContainer>
@@ -111,12 +77,12 @@ export default function Home() {
                 <>
                     <WorkersList name="WorkerList">
                         {
-                            listOfWorkers.map((employee) => (
-                                <Worker key={employee.id} name={employee.name}>
-                                    {employee.name} / {employee.sex}
-                                    <DeleteWorker onClick={ () => { RemoveEmployee(employee.id); }}
+                            listOfWorkers.map((worker) => (
+                                <Worker key={worker.id} name={worker.name}>
+                                    {worker.name} / {worker.sex}
+                                    <DeleteWorker onClick={ () => { RemoveWorker(worker.id); }}
                                     >
-                                        🗙
+                                        X
                                     </DeleteWorker>
                                 </Worker>
                             ))
@@ -125,7 +91,7 @@ export default function Home() {
                     <WorkerForm name="employeeForm">
                         <input
                             type="text"
-                            placeholder="name and Surname"
+                            placeholder="Name and Surname"
                             className="inputClass"
                             name="name"
                             value={addWorker.name}
@@ -143,7 +109,7 @@ export default function Home() {
                             className="inputClass"
                             onClick={handleAddWorker}
                         >
-                            Přidat
+                            Add new worker
                         </button>
                     </WorkerForm>
                 </>
@@ -156,17 +122,13 @@ export default function Home() {
                             style={{ color: 'white', height: 'auto' }}
                         >
                             <h2>Planning work</h2>
-                           
-                          
                                 <p>Meters to do: {tempTask.meters} m</p>
-                                <p>Time: {tempTask.time} h</p>
-                                
-                            
-                        </div>
-                       
+                                <p>Time: {tempTask.time} h</p> 
+                                <br/>             
+                        </div>                  
                         <input
                             type="number"
-                            placeholder="meters to do"
+                            placeholder="Meters to do"
                             className="inputClass"
                             name="meters"
                             value={tempTask.meters}
@@ -180,12 +142,12 @@ export default function Home() {
                             value={tempTask.time}
                             onChange={taskManagement}
                         />
+                        <br/>
                         <PlanButton
                             className="inputClass"
-                            id="planButton" name="assignment" employeePerformance={workforceMeters} conditionRequirement={workforceRequirement}
-                            onClick={addTask}
+                            id="planButton" name="assignment" employeePerformance={workforceMeters} conditionRequirement={workforceRequirement}                         
                         >
-                            Order 
+                            Order Work
                         </PlanButton>
 
                     </WorkerForm>
