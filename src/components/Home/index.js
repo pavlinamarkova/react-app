@@ -7,6 +7,10 @@ export default function Home() {
     const WorkersCount = useRef(workers .length);
     const [listOfWorkers, setListOfWorkers] = useState(workers);
     const [activeTab, setActiveTab] = useState('list-of-workers');
+    const [valid, setValid] = useState(false);
+    const [validPlan,setValidPlan]=useState(false);
+    const [activePlan,setActivePlan]=useState("white");
+
     const [Task, setTask] = useState({
         meters: 0,
         time: 0
@@ -45,6 +49,7 @@ export default function Home() {
 
     const taskManagement = (e) => {
         setTempTask({ ...tempTask, [e.target.name]: e.target.value });
+        checkPlan();
     };
 
     const addTask = async () => {
@@ -66,7 +71,7 @@ export default function Home() {
     };
 
     let workforceMeters = 0;
-    let workforceRequirement = Task.meters / Task.time;
+    let workforceRequirement = tempTask.meters / tempTask.time;
 
     for (let i = 0; i < listOfWorkers.length; i++) {
         console.log(listOfWorkers[i]);
@@ -90,6 +95,17 @@ export default function Home() {
         e.preventDefault();
         const newActiveTab = newValue;
         setActiveTab(newActiveTab);
+    };
+
+    const checkPlan=()=>{
+        if(tempTask.minutes<=Task.minutes 
+            && tempTask.meters<=Task.meters
+            && Number(tempTask.minutes)>=1 && Number(tempTask.meters)>=1
+            ){
+            setValidPlan(true);
+            setActivePlan("green");
+        }else{setValidPlan(false);
+            setActivePlan("red");}
     };
 
     return (
@@ -151,10 +167,11 @@ export default function Home() {
                             className="inputClass"
                             style={{ color: 'white', height: 'auto' }}
                         >
-                            <h2>Planning works</h2>
+                            <h2>Planning work</h2>
+                           
                           
-                                <p>Meters tp do: {Task.meters} m</p>
-                                <p>Time: {Task.time} h</p>
+                                <p>Meters to do: {tempTask.meters} m</p>
+                                <p>Time: {tempTask.time} h</p>
                             
                         </div>
                        
@@ -179,8 +196,9 @@ export default function Home() {
                             id="planButton" name="assignment" employeePerformance={workforceMeters} conditionRequirement={workforceRequirement}
                             onClick={addTask}
                         >
-                            Planning
+                            Order 
                         </PlanButton>
+
                     </WorkerForm>
                 </>
             }
