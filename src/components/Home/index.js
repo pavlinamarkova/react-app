@@ -34,7 +34,7 @@ export default function Home() {
         });
     };
 
-    const RemoveWorker = (id) => {
+    const removeWorker = (id) => {
         setListOfWorkers(listOfWorkers.filter(worker => worker.id != id));
     };
 
@@ -79,7 +79,7 @@ export default function Home() {
                             listOfWorkers.map((worker) => (
                                 <Worker key={worker.id} name={worker.name}>
                                     {worker.name} / {worker.sex}
-                                    <DeleteWorker onClick={ () => { RemoveWorker(worker.id); }}
+                                    <DeleteWorker onClick={ () => { removeWorker(worker.id); }}
                                     >
                                         X
                                     </DeleteWorker>
