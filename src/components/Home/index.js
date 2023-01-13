@@ -151,7 +151,7 @@ export default function Home() {
                             className="inputClass"
                             style={{ color: 'white', height: 'auto' }}
                         >
-                            <h2>PLanning work</h2>
+                            <h2>Planning work</h2>
                           
                                 <p>Meters tp do: {Task.meters} m</p>
                                 <p>Time: {Task.time} h</p>
