@@ -45,6 +45,7 @@ export default function Home() {
     let workMeters = 0;
     let workRequirement = tempTask.meters / tempTask.time;
 
+
     for (let i = 0; i < listOfWorkers.length; i++) {
         console.log(listOfWorkers[i]);
         if (listOfWorkers[i].sex === 'M') {
@@ -53,6 +54,14 @@ export default function Home() {
         else {
             workMeters+= 0.5
         }
+    }
+
+    let infoMessage ="";
+    if (workMeters>=workRequirement){
+        infoMessage = "Order your work!";
+
+    }else {
+        infoMessage = "You need more workers!";
     }
 
     const switchTab = (e, newValue) => {
@@ -87,7 +96,7 @@ export default function Home() {
                             ))
                         }
                     </WorkersList>
-                    <WorkerForm name="employeeForm">
+                    <WorkerForm name="WorkerForm">
                         <input
                             type="text"
                             placeholder="Name and Surname"
@@ -123,6 +132,7 @@ export default function Home() {
                             <h2>Planning work</h2>
                                 <p>Meters to do: {tempTask.meters} m</p>
                                 <p>Time: {tempTask.time} h</p> 
+                                <p> {infoMessage} </p>
                                 <br/>             
                         </div>                  
                         <input
