@@ -3,7 +3,7 @@ import { PageContainer, WorkersList, Worker, WorkerForm, Buttons, TabButton, Del
 import { workers } from "./workersData";
 
 export default function Home() {
-    const WorkersCount = useRef(workers .length);
+    const WorkersCount = useRef(workers.length);
     const [listOfWorkers, setListOfWorkers] = useState(workers);
     const [activeTab, setActiveTab] = useState('list-of-workers');
     const [tempTask, setTempTask] = useState({
@@ -35,7 +35,7 @@ export default function Home() {
     };
 
     const removeWorker = (id) => {
-        setListOfWorkers(listOfWorkers.filter(worker => worker.id != id));
+        setListOfWorkers(listOfWorkers.filter(worker => worker.id !== id));
     };
 
     const taskHandle = (e) => {
@@ -57,11 +57,15 @@ export default function Home() {
     }
 
     let infoMessage ="";
-    if (workMeters>=workRequirement){
+    if (workMeters>=workRequirement &&
+        tempTask.meters>=1 && tempTask.time>=1){
         infoMessage = "Order your work!";
 
-    }else {
+    }else if(workMeters<workRequirement &&
+        tempTask.meters>=1 && tempTask.time>=1){
         infoMessage = "You need more workers!";
+    }else {
+        infoMessage = "";
     }
 
     const switchTab = (e, newValue) => {
