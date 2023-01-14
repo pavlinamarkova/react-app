@@ -90,11 +90,11 @@ export const PlanButton = styled.button`
   cursor: pointer;
   background-color: transparent;
   ${props => {
-        if (props.workForMeters >= props.conditionRequirement) {
+        if (props.workForMeters >= props.conditionRequirement && props.meters>=1 && props.time>=1) {
             return `
         background-color: green;
       `;
-        } else {
+        } else if (props.workForMeters < props.conditionRequirement && props.meters>=1 && props.time>=1){
             return `
         background-color: red;
       `;

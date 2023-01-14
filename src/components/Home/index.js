@@ -158,7 +158,7 @@ export default function Home() {
                         <br/>
                         <PlanButton
                             className="inputClass"
-                            id="planButton" name="assignment" workForMeters={workMeters} conditionRequirement={workRequirement}                         
+                            id="planButton" name="assignment" workForMeters={workMeters} conditionRequirement={workRequirement} meters ={tempTask.meters}  time ={tempTask.time}                 
                         >
                             Order Work
                         </PlanButton>
